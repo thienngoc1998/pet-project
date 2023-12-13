@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:5.7.22
+    restart: unless-stopped
+    ports:
+      - ${DB_PORT}:3306
+    volumes:
+      - db-store:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-homestead}
+      MYSQL_USER: ${DB_USERNAME:-homestead}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - ./source:/var/www/html
+    ports :
+      - "9000:9000"
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - ${APP_PORT:-8088}:80
+    volumes:
+      - ./source:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+      - mysql
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    volumes:
+      - redis-local:/data
+
+  maihong_crm:
+    image: mailhog/mailhog
+    volumes:
+      - ./mailhog/maildir:/maildir
+    command: [ "-storage=maildir", "-maildir-path=/maildir" ]
+    ports:
+      - ${MAILHOG_PORT:-8025}:8025
+      - ${FORWARD_MAILHOG_PORT:-1025}:1025
+
+
+volumes:
+    redis-local:
+      driver: local
+    db-store:
+      driver: local
+
+
