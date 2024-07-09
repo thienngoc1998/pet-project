@@ -14,7 +14,7 @@
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['namespace' => 'Auth','prefix' => 'account'], function(){
+Route::group(['prefix' => 'account'], function(){
     Route::get('register','RegisterController@getFormRegister')->name('get.register');
     Route::post('register','RegisterController@postRegister');
 
