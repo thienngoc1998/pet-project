@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+//        Schema::defaultStringLength(191);
 
         try {
             $categories = Category::with('children:id,c_name,c_slug,c_parent_id')

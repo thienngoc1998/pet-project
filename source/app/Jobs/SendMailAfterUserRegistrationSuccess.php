@@ -36,4 +36,9 @@ class SendMailAfterUserRegistrationSuccess implements ShouldQueue
     {
         Mail::to($this->user->email)->send(new RegisterSuccess($this->user->name));
     }
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
 }

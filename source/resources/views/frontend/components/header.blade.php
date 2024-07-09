@@ -65,7 +65,7 @@
                     <a href="{{ route('get.shopping.list') }}" title="Giỏ hàng">
                         <i class="la la-shopping-cart"></i>
                         <span class="text">
-                            <span class="">Giỏ hàng ({{ \Cart::count() }})</span>
+                            <span class="">Giỏ hàng 1</span>
                             <span></span>
                         </span>
                     </a>

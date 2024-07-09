@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.3-fpm
 
 # Work in the specific space
 WORKDIR /var/www/html
@@ -40,10 +40,11 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
 
+USER www
 COPY ./source /var/www/html
 
 COPY --chown=www:www ./source /var/www/html
 
-USER www
-EXPOSE 9000
+RUN composer install
+
 

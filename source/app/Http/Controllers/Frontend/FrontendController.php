@@ -11,18 +11,18 @@ class FrontendController extends Controller
 {
     public function __contruct()
     {
-        
+
     }
 
     public function syncAttributeGroup()
     {
-        $attributes     = Attribute::get();
+        $attributes = Attribute::get();
         $groupAttribute = [];
 
-        foreach ($attributes as $key => $attribute) {
-
+        foreach ($attributes as $attribute) {
             $groupAttribute[$attribute->atb_name][] = $attribute->toArray();
         }
+
         return $groupAttribute;
     }
 }

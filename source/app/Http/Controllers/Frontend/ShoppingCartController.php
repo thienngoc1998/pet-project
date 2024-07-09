@@ -109,17 +109,22 @@ class ShoppingCartController extends Controller
     public function postPay(OrderRequest $request): RedirectResponse
     {
         try {
-            dispatch(new OrderProductJob())->onQueue('payments');
             $validatedRequest = $request->validated();
-            $this->orderService->orderProducts($validatedRequest);
+            $validatedRequest['tst_user_id'] = auth()->id();
+            $validatedRequest['tst_total_money'] = str_replace(',', '', Cart::subtotal(0));
 
-            $toastr = $this->toastrBuilder
-                ->setType(ToastrEnum::SUCCESS)
-                ->setMessage('Order products successfully')
-                ->build();
+            $transaction = Transaction::create($validatedRequest);
+            dispatch(new OrderProductJob($transaction))->onQueue('payments');
 
-
-            $this->cartService->destroyCart();
+//            $this->orderService->orderProducts($validatedRequest);
+//
+//            $toastr = $this->toastrBuilder
+//                ->setType(ToastrEnum::SUCCESS)
+//                ->setMessage('Order products successfully')
+//                ->build();
+//
+//
+//            $this->cartService->destroyCart();
         } catch (OrderException $exception) {
             report($exception);
 
@@ -128,7 +133,7 @@ class ShoppingCartController extends Controller
                 ->setMessage($exception->getMessage())
                 ->build();
         }  finally {
-            $this->toastrService->show($toastr);
+            //$this->toastrService->show($toastr);
 
             return redirect()->back();
         }

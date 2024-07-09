@@ -11,9 +11,9 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+use App\Http\Controllers\Frontend\HomeController;
+use Illuminate\Support\Facades\Route;
+
 Route::group(['namespace' => 'Auth','prefix' => 'account'], function(){
     Route::get('register','RegisterController@getFormRegister')->name('get.register');
     Route::post('register','RegisterController@postRegister');
@@ -42,8 +42,8 @@ Route::group(['prefix' => 'admin-auth','namespace' => 'Admin\Auth'], function() 
 
 
 Route::group(['namespace' => 'Frontend'], function() {
-    Route::get('','HomeController@index')->name('get.home');
-    Route::get('ajax-load-product-recently','HomeController@getLoadProductRecently')->name('ajax_get.product_recently');
+    Route::get('',[HomeController::class, 'index'])->name('get.home');
+    Route::get('ajax-load-product-recently',[HomeController::class, 'getLoadProductRecently'])->name('ajax_get.product_recently');
     Route::get('ajax-load-slide','HomeController@loadSlideHome')->name('ajax_get.slide');
     Route::get('san-pham','ProductController@index')->name('get.product.list');
     Route::get('danh-muc/{slug}','CategoryController@index')->name('get.category.list');
@@ -59,7 +59,7 @@ Route::group(['namespace' => 'Frontend'], function() {
         Route::get('add/{id}','ShoppingCartController@add')->name('get.shopping.add');
         Route::get('delete/{id}','ShoppingCartController@delete')->name('get.shopping.delete');
         Route::get('update/{id}','ShoppingCartController@update')->name('ajax_get.shopping.update');
-        Route::get('theo-doi-don-hang','TrackOrderController@index')->name('get.track.transaction');
+        Route::get('theo-doi-don-hang','TrackOrderController@index')->name('get.track \Cart::count() }}');
         Route::post('pay','ShoppingCartController@postPay')->name('post.shopping.pay');
     });
 
@@ -87,7 +87,6 @@ Route::group(['namespace' => 'Frontend'], function() {
         Route::get('/list','DocumentController@list')->name('get.document.list');
         Route::get('/detail','DocumentController@detail')->name('get.document.detail');
     });
-
 });
 
 include 'route_api.php';

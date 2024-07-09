@@ -29,6 +29,12 @@ class Transaction extends Model
         ],
     ];
 
+    public const PENDING = 1;
+    public const PROCESSING = 2;
+    public const SUCCESS = 3;
+    public const ERROR = 4;
+    public const CANCELED = 5;
+
     public function getStatus()
     {
         return Arr::get($this->status, $this->tst_status,"[N\A]");

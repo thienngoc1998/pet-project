@@ -24,7 +24,7 @@ class OrderService
      * @throws OrderException
      * @throws Throwable
      */
-    public function orderProducts(array $requests)
+    public function orderProducts(Transaction $transaction)
     {
         $carts = $this->cartService->getContents();
         if ($carts->isEmpty()) {
@@ -33,15 +33,11 @@ class OrderService
 
         DB::beginTransaction();
         try {
-            $idLoggedIn = auth()->id();
-            $requests['tst_user_id'] = $idLoggedIn;
-            $requests['tst_total_money'] = str_replace(',', '', Cart::subtotal(0));
-            $requests['created_at'] = Carbon::now();
-
-            $transactionID = Transaction::insertGetId($requests);
             $carts = $this->cartService->getContents();
-            $this->saveOrder($carts, $transactionID);
-
+            $this->saveOrder($carts, $transaction->id);
+            $transaction->update([
+                'tst_status' => Transaction::SUCCESS
+            ]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollback();

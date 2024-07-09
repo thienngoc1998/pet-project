@@ -5,7 +5,7 @@ services:
     image: mysql:5.7.22
     restart: unless-stopped
     ports:
-      - ${DB_PORT}:3306
+      - 3388:3306
     volumes:
       - db-store:/var/lib/mysql
     environment:
@@ -19,8 +19,7 @@ services:
       dockerfile: ./docker/Dockerfile
     volumes:
       - ./source:/var/www/html
-    ports :
-      - "9000:9000"
+      - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
   nginx:
     image: nginx:stable-alpine
     ports:
@@ -48,7 +47,6 @@ services:
     ports:
       - ${MAILHOG_PORT:-8025}:8025
       - ${FORWARD_MAILHOG_PORT:-1025}:1025
-
 
 volumes:
     redis-local:

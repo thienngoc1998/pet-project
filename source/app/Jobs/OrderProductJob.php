@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,14 +15,16 @@ class OrderProductJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
 //    public $queue = 'payments';
+    private Transaction $transaction;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Transaction $transaction)
     {
-
+        $this->transaction = $transaction;
     }
 
     /**
@@ -32,5 +35,6 @@ class OrderProductJob implements ShouldQueue
     public function handle(): void
     {
         Log::info('Running order product job...');
+        sleep(10);
     }
 }

@@ -63,7 +63,6 @@ class RegisterController extends Controller
 
             return redirect()->route('get.login');
         } catch (Exception $exception) {
-            dd($exception);
             return redirect()->back();
         }
     }

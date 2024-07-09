@@ -16,6 +16,7 @@ class HomeController extends FrontendController
 {
     public function index()
     {
+//        return 1;
         // return view("emails.email_success_transaction");
         // Sản phẩm mới
         $productsNew = Product::where('pro_active',1)

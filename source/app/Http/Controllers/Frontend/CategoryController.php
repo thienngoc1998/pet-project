@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
@@ -67,7 +66,7 @@ class CategoryController extends FrontendController
                 'title_page'    => $category->c_name,
                 'query'         => $request->query(),
                 'country'       => Producer::whereIn('id', $producerId)->get()->toArray(),
-                'link_search'   => request()->fullUrlWithQuery(['k' => \Request::get('k')])
+                'link_search'   => request()->fullUrlWithQuery(['k' => $request->get('k')])
             ];
 
             return view('frontend.pages.product.index', $viewData);
