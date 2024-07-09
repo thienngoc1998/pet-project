@@ -44,7 +44,7 @@ Route::group(['prefix' => 'admin-auth','namespace' => 'Admin\Auth'], function() 
 Route::group(['namespace' => 'Frontend'], function() {
     Route::get('',[HomeController::class, 'index'])->name('get.home');
     Route::get('ajax-load-product-recently',[HomeController::class, 'getLoadProductRecently'])->name('ajax_get.product_recently');
-    Route::get('ajax-load-slide','HomeController@loadSlideHome')->name('ajax_get.slide');
+    Route::get('ajax-load-slide',[HomeController::class, 'loadSlideHome'])->name('ajax_get.slide');
     Route::get('san-pham','ProductController@index')->name('get.product.list');
     Route::get('danh-muc/{slug}','CategoryController@index')->name('get.category.list');
     Route::get('san-pham/{slug}','ProductDetailController@getProductDetail')->name('get.product.detail');
