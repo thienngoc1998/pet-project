@@ -31,36 +31,36 @@ use App\Http\Controllers\Frontend\ShoppingCartController;
 use App\Http\Controllers\Frontend\TrackOrderController;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'account'], function(){
-    Route::get('register',[RegisterController::class, 'getFormRegister'])->name('get.register');
-    Route::post('register',[RegisterController::class, 'postRegister']);
+Route::group(['prefix' => 'account'], function () {
+    Route::get('register', [RegisterController::class, 'getFormRegister'])->name('get.register');
+    Route::post('register', [RegisterController::class, 'postRegister']);
 
-    Route::get('login','LoginController@getFormLogin')->name('get.login');
-    Route::post('login','LoginController@postLogin');
+    Route::get('login', [LoginController::class, 'getFormLogin'])->name('get.login');
+    Route::post('login', [LoginController::class, 'postLogin']);
 
-    Route::get('logout',[LoginController::class, 'getLogout'])->name('get.logout');
-    Route::get('reset-password',[ResetPasswordController::class, 'getEmailReset'])->name('get.email_reset_password');
-    Route::post('reset-password',[ResetPasswordController::class, 'checkEmailResetPassword']);
+    Route::get('logout', [LoginController::class, 'getLogout'])->name('get.logout');
+    Route::get('reset-password', [ResetPasswordController::class, 'getEmailReset'])->name('get.email_reset_password');
+    Route::post('reset-password', [ResetPasswordController::class, 'checkEmailResetPassword']);
 
-    Route::get('new-password',[ResetPasswordController::class, 'newPassword'])->name('get.new_password');
-    Route::post('new-password',[ResetPasswordController::class, 'savePassword']);
+    Route::get('new-password', [ResetPasswordController::class, 'newPassword'])->name('get.new_password');
+    Route::post('new-password', [ResetPasswordController::class, 'savePassword']);
 
-    Route::get('/{social}/redirect',  [SocialAuthController::class, 'redirect'])->name('get.login.social');
-    Route::get('/{social}/callback',  [SocialAuthController::class, 'callback'])->name('get.login.social_callback');
+    Route::get('/{social}/redirect', [SocialAuthController::class, 'redirect'])->name('get.login.social');
+    Route::get('/{social}/callback', [SocialAuthController::class, 'callback'])->name('get.login.social_callback');
 });
 
 // Login admin
-Route::group(['prefix' => 'admin-auth'], function() {
+Route::group(['prefix' => 'admin-auth'], function () {
     Route::get('login', [AdminLoginController::class, 'getLoginAdmin'])->name('get.login.admin');
     Route::post('login', [AdminLoginController::class, 'postLoginAdmin']);
     Route::get('logout', [AdminLoginController::class, 'getLogoutAdmin'])->name('get.logout.admin');
 });
 
 
-Route::group(['namespace' => 'Frontend'], function() {
-    Route::get('',[HomeController::class, 'index'])->name('get.home');
-    Route::get('ajax-load-product-recently',[HomeController::class, 'getLoadProductRecently'])->name('ajax_get.product_recently');
-    Route::get('ajax-load-slide',[HomeController::class, 'loadSlideHome'])->name('ajax_get.slide');
+Route::group(['namespace' => 'Frontend'], function () {
+    Route::get('', [HomeController::class, 'index'])->name('get.home');
+    Route::get('ajax-load-product-recently', [HomeController::class, 'getLoadProductRecently'])->name('ajax_get.product_recently');
+    Route::get('ajax-load-slide', [HomeController::class, 'loadSlideHome'])->name('ajax_get.slide');
     Route::get('san-pham', [ProductController::class, 'index'])->name('get.product.list');
     Route::get('danh-muc/{slug}', [CategoryController::class, 'index'])->name('get.category.list');
     Route::get('san-pham/{slug}', [ProductDetailController::class, 'getProductDetail'])->name('get.product.detail');
@@ -80,12 +80,12 @@ Route::group(['namespace' => 'Frontend'], function() {
     });
 
     //Comment
-    Route::group(['prefix' => 'comment', 'middleware' => 'check_user_login'], function(){
+    Route::group(['prefix' => 'comment', 'middleware' => 'check_user_login'], function () {
         Route::post('ajax-comment', [CommentsController::class, 'store'])->name('ajax_post.comment');
     });
 
     Route::get('lien-he', [ContactController::class, 'index'])->name('get.contact');
-    Route::get('convert-word-to-pdf',[ContactController::class, 'convertWordToPdf'])->name('convert.word.to.pdf');
+    Route::get('convert-word-to-pdf', [ContactController::class, 'convertWordToPdf'])->name('convert.word.to.pdf');
     Route::post('lien-he', [ContactController::class, 'store']);
     Route::get('san-pham-ban-da-xem', [PageStaticController::class, 'getProductView'])->name('get.static.product_view');
     Route::get('ajax/san-pham-ban-da-xem', [PageStaticController::class, 'getListProductView'])->name('ajax_get.product_view');
@@ -94,11 +94,10 @@ Route::group(['namespace' => 'Frontend'], function() {
     Route::get('cham-soc-khach-hang', [PageStaticController::class, 'getCustomerCare'])->name('get.static.customer_care');
 
 
-
     Route::get('ajax/load-document', [PageStaticController::class, 'getDocumentAjax'])->name('get_ajax.static.document');
     Route::get('demo/view-file', [PageStaticController::class, 'getDemoViewFile']);
 
-    Route::group(['prefix' => 'document'], function(){
+    Route::group(['prefix' => 'document'], function () {
         Route::get('/index', [DocumentController::class, 'index'])->name('get.document.index');
         Route::get('/list', [DocumentController::class, 'list'])->name('get.document.list');
         Route::get('/detail', [DocumentController::class, 'detail'])->name('get.document.detail');

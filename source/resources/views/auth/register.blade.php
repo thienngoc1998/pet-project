@@ -46,7 +46,7 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="phone">Điện thoại <span class="cRed">(*)</span></label>
+                    <label for="phone">Phone Number</label>
                     <input name="phone" id="phone" type="number" value="{{  old('phone') }}" placeholder="123456789" class="form-control">
                     @if ($errors->first('phone'))
                         <span class="text-danger">{{ $errors->first('phone') }}</span>

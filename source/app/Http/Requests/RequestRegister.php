@@ -11,7 +11,7 @@ class RequestRegister extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,14 +21,13 @@ class RequestRegister extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'email'     => 'required|max:190|min:3|unique:users,email,'.$this->id,
             'name'      => 'required',
-            'phone'     => 'required|unique:users,phone,'.$this->id,
+            'phone'     => 'nullable|string',
             'password'  => 'required',
-//            'g-recaptcha-response' => 'required|captcha'
         ];
     }
 

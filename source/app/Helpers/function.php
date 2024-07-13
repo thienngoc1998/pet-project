@@ -152,9 +152,7 @@ if (!function_exists('detectDevice'))
 {
     function detectDevice()
     {
-        $instance = new Jenssegers\Agent\Agent();
-
-        return $instance;
+        return new Jenssegers\Agent\Agent();
     }
 }
 

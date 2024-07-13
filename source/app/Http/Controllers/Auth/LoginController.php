@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserLoginSuccessEvent;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\Http\Requests\RequestLogin;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -24,41 +26,28 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    // protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function getFormLogin(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
-        // $this->middleware('guest')->except('logout');
-    }
-
-    public function getFormLogin()
-    {
-        $title_page = 'Đăng nhập';
+        $title_page = 'Login';
         return view('auth.login',compact('title_page'));
     }
 
-    public function postLogin(RequestLogin $request)
+    public function postLogin(RequestLogin $request): RedirectResponse
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            $this->logLogin();
+            event(new UserLoginSuccessEvent(
+                Auth::user(),
+                get_agent()
+            ));
+
             return redirect()->intended('/');
         }
 
         return redirect()->back();
     }
 
-    protected function logLogin()
+    protected function writeUserLoginLog(): void
     {
         $log = get_agent();
         $historyLog = \Auth::user()->log_login;
